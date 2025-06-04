@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>交互式3D波动率曲面</title>
+    <title>Interactive 3D Volatility Surface</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; color: #333; }
@@ -20,59 +20,59 @@
 </head>
 <body>
 
-    <h1>交互式3D波动率曲面</h1>
-    <p>调整以下参数来观察波动率曲面的变化，理解波动率微笑、偏斜和期限结构。这有助于理解诸如日历价差（Calendar Spread）、风险逆转（Risk Reversal）、跨式/宽跨式价差（Straddle/Strangle Swaps）等波动率策略。</p>
+    <h1>Interactive 3D Volatility Surface</h1>
+    <p>Adjust the parameters below to observe changes in the volatility surface, understanding volatility smile, skew, and term structure. This helps in comprehending volatility strategies such as Calendar Spreads, Risk Reversals, and Straddle/Strangle Swaps.</p>
 
     <div class="container">
         <div class="controls">
-            <h2>控制参数</h2>
+            <h2>Control Parameters</h2>
 
             <div class="param-group">
                 <div class="control-item">
-                    <label for="baseVol">基础波动率 (Base Vol):</label>
+                    <label for="baseVol">Base Volatility (Base Vol):</label>
                     <input type="range" id="baseVol" min="0.05" max="0.6" step="0.01" value="0.20">
                     <span id="baseVolValue">0.20</span>
                 </div>
             </div>
 
             <div class="param-group">
-                <h3>微笑 (Smile) & 偏斜 (Skew)</h3>
+                <h3>Smile & Skew</h3>
                 <div class="control-item">
-                    <label for="smileFactor">微笑因子 (Smile Factor):</label>
+                    <label for="smileFactor">Smile Factor:</label>
                     <input type="range" id="smileFactor" min="0" max="2" step="0.05" value="0.5">
-                    <span id="smileFactorValue">0.50</span> (控制微笑的弯曲程度)
+                    <span id="smileFactorValue">0.50</span> (Controls the curvature of the smile)
                 </div>
                 <div class="control-item">
-                    <label for="skewFactor">偏斜因子 (Skew Factor):</label>
+                    <label for="skewFactor">Skew Factor:</label>
                     <input type="range" id="skewFactor" min="-1.5" max="0.5" step="0.05" value="-0.5">
-                    <span id="skewFactorValue">-0.50</span> (负值使OTM Put IV更高)
+                    <span id="skewFactorValue">-0.50</span> (Negative values make OTM Put IV higher)
                 </div>
                  <div class="control-item">
-                    <label for="smileSkewDecay">微笑/偏斜衰减率 (Smile/Skew Decay):</label>
+                    <label for="smileSkewDecay">Smile/Skew Decay Rate:</label>
                     <input type="range" id="smileSkewDecay" min="0" max="5" step="0.1" value="1.0">
-                    <span id="smileSkewDecayValue">1.0</span> (控制微笑/偏斜随到期时间变平坦的速度)
+                    <span id="smileSkewDecayValue">1.0</span> (Controls how fast smile/skew flattens with time to expiry)
                 </div>
             </div>
 
             <div class="param-group">
-                <h3>期限结构 (Term Structure)</h3>
+                <h3>Term Structure</h3>
                 <div class="control-item">
-                    <label for="shortTermLift">短期IV提升 (Short-Term IV Lift):</label>
+                    <label for="shortTermLift">Short-Term IV Lift:</label>
                     <input type="range" id="shortTermLift" min="-0.2" max="0.3" step="0.01" value="0.05">
-                    <span id="shortTermLiftValue">0.05</span> (提升或压低近期IV)
+                    <span id="shortTermLiftValue">0.05</span> (Lifts or depresses near-term IV)
                 </div>
                 <div class="control-item">
-                    <label for="shortTermDecayRate">短期提升衰减率 (Short-Term Lift Decay Rate):</label>
+                    <label for="shortTermDecayRate">Short-Term Lift Decay Rate:</label>
                     <input type="range" id="shortTermDecayRate" min="1" max="20" step="0.5" value="10">
-                    <span id="shortTermDecayRateValue">10</span> (短期提升效果消失的速度)
+                    <span id="shortTermDecayRateValue">10</span> (Rate at which short-term lift effect disappears)
                 </div>
                 <div class="control-item">
-                    <label for="longTermSlope">长期IV斜率 (Long-Term IV Slope):</label>
+                    <label for="longTermSlope">Long-Term IV Slope:</label>
                     <input type="range" id="longTermSlope" min="-0.1" max="0.2" step="0.005" value="0.05">
                     <span id="longTermSlopeValue">0.05</span> (控制远期IV的整体趋势)
                 </div>
             </div>
-             <button onclick="updatePlot()">更新曲面</button>
+             <button onclick="updatePlot()">Update Surface</button>
         </div>
 
         <div id="volSurfacePlot" class="plot-container"></div>
@@ -173,9 +173,9 @@
             const layout = {
                 title: '3D Implied Volatility Surface',
                 scene: {
-                    xaxis: { title: '到期时间 (年)' },
-                    yaxis: { title: '价内价外程度 (K/S0)' },
-                    zaxis: { title: '隐含波动率 (IV)' },
+                    xaxis: { title: 'Time to Expiry (Years)' },
+                    yaxis: { title: 'Moneyness (K/S0)' },
+                    zaxis: { title: 'Implied Volatility (IV)' },
                     camera: {
                         eye: {x: -1.7, y: -1.7, z: 0.5} // Adjust camera angle for better initial view
                     }
