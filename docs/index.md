@@ -6,6 +6,9 @@ This project analyzes daily market news, extracts key information, and integrate
 
 ---
 
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true});</script>
+
 ## Project Workflow
 
 The UMCO project achieves its functionality through the following workflow:
