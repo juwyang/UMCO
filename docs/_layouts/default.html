@@ -10,6 +10,11 @@
 
     <!-- 引入 Mermaid.js -->
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            mermaid.initialize({ startOnLoad: true });
+        });
+    </script>
 </head>
 <body>
     <header>
@@ -26,10 +31,5 @@
         <!-- 你可以在这里添加一个统一的页脚 -->
         <!-- <p>&copy; 2025 Your Name/Organization</p> -->
     </footer>
-
-    <!-- 初始化 Mermaid.js -->
-    <script>
-        mermaid.initialize({ startOnLoad: true });
-    </script>
 </body>
 </html>
