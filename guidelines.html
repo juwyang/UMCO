@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>UMCO | Unfilled-Market-News-Output</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="UMCO" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Unfilled-Market-News-Output" />
+<meta property="og:description" content="Unfilled-Market-News-Output" />
+<meta property="og:site_name" content="UMCO" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="UMCO" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Unfilled-Market-News-Output","headline":"UMCO","url":"/guidelines.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="stylesheet" href="/assets/css/style.css?v=f637df38e709ed456b6297ed07a2ee16942cf344">
+    <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
+
+<!-- Setup Google Analytics -->
+
+
+
+<!-- You can set your favicon here -->
+<!-- link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" -->
+
+<!-- end custom head snippets -->
+
+  </head>
+  <body>
+    <div class="container-lg px-3 my-5 markdown-body">
+      
+      <h1><a href="/">UMCO</a></h1>
+      
+
+      <p>Okay, here’s the plan for your “Unfilled Market Concern Output (UMCO)” project showcase page, designed for GitHub Pages, presented in English.</p>
+
+<hr />
+
+<h2 id="1-suggested-github-repository-structure">1. Suggested GitHub Repository Structure</h2>
+
+<p>To clearly organize your project and facilitate GitHub Pages deployment, consider the following structure:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>UMCO/
+├── .github/
+│   └── workflows/
+│       └── deploy-gh-pages.yml  # (Optional) GitHub Actions script for automated deployment
+├── docs/                          # (Recommended) Source folder for GitHub Pages content
+│   ├── index.md                   # Your project's main page (or README.md copied/renamed)
+│   ├── _config.yml                # Jekyll configuration file (if using a Jekyll theme)
+│   ├── assets/
+│   │   ├── images/                # Store images (e.g., logo, screenshots)
+│   │   └── css/                   # Custom styles (optional)
+│   │       └── style.css
+│   ├── module2_showcase.html      # Your Module 2 HTML showcase file
+│   └── module3_showcase.html      # Your Module 3 HTML showcase file
+├── src/                           # Project source code
+│   ├── data_collection/           # Module 1: Data scraping scripts
+│   ├── nlp_processing/            # Module 1: Natural Language Processing scripts
+│   ├── modeling/                  # Module 2: Analysis and modeling scripts
+│   ├── visualization_scripts/     # Module 3: Visualization generation scripts (if HTML is dynamically generated)
+│   └── main.py                    # Main execution script (optional)
+├── data/                          # (Optional) Store sample data or small datasets
+│   ├── raw_data/
+│   └── processed_data/
+├── notebooks/                     # (Optional) Jupyter Notebooks for exploratory analysis and experiments
+├── requirements.txt               # Python dependencies
+├── LICENSE                        # Project license (e.g., MIT, Apache 2.0)
+└── README.md                      # README in the repository root, can be similar to docs/index.md or more developer-focused
+</code></pre></div></div>
+
+<p><strong>Explanation:</strong></p>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">docs/</code> folder</strong>: GitHub Pages can be configured to serve from the <code class="language-plaintext highlighter-rouge">/docs</code> folder on the <code class="language-plaintext highlighter-rouge">main</code> branch. This is a recommended practice to keep the repository root clean.</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">module2_showcase.html</code> and <code class="language-plaintext highlighter-rouge">module3_showcase.html</code></strong>: Place your existing HTML files in the <code class="language-plaintext highlighter-rouge">docs/</code> directory for easy embedding in the main page via <code class="language-plaintext highlighter-rouge">&lt;iframe&gt;</code>.</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">src/</code></strong>: Contains the core code, organized by module.</li>
+</ul>
+
+<hr />
+
+<h2 id="2-project-flowchart">2. Project Flowchart</h2>
+
+<p>Here’s a flowchart created using Mermaid syntax. You can paste this code directly into your Markdown file, and GitHub will render it.</p>
+
+<pre><code class="language-mermaid">graph TD
+    A[Data Source: Nasdaq/Barchart Commodity News] --&gt; B(Module 1: Market Daily Briefing);
+    B --&gt; B1[Scrape News Data];
+    B1 --&gt; B2[Natural Language Processing: Summary Generation];
+    B2 --&gt; B3[Extract Commodity Price Changes &amp; Reasons];
+    B3 --&gt; B4[Update Risk Factors List];
+    B4 --&gt; C{Market Summary &amp; Risk Factors};
+
+    C --&gt; D(Module 2: Analysis &amp; Modeling);
+    E[Historical Price Data] --&gt; D;
+    D --&gt; D1[Conditional Heteroskedasticity HMM Model];
+    D1 -- Textual Information Controls Parameters --&gt; D2[Volatility Surface Modeling];
+    D2 --&gt; F{Model Parameters / Volatility Forecast};
+
+    F --&gt; G(Module 3: Visualization);
+    E --&gt; G;
+    G --&gt; G1[Price Attribution Time Series Chart];
+    G1 --&gt; H{Visualization Results};
+
+    subgraph UMCO Core Pipeline
+        direction LR
+        B
+        D
+        G
+    end
+
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style H fill:#f9f,stroke:#333,stroke-width:2px
+    style C fill:#ccf,stroke:#333,stroke-width:2px
+    style F fill:#ccf,stroke:#333,stroke-width:2px
+</code></pre>
+
+<hr />
+
+<h2 id="3-github-pages-content-docsindexmd">3. GitHub Pages Content (<code class="language-plaintext highlighter-rouge">docs/index.md</code>)</h2>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gh"># Unfilled Market Concern Output (UMCO)</span>
+
+<span class="gs">**UMCO is an innovative project combining Natural Language Processing and time series models to summarize the causes of and predict volatility for commodities (e.g., gold, oil).**</span>
+
+This project analyzes daily market news, extracts key information, and integrates it into sophisticated financial models to provide users with deep market insights and potential risk warnings.
+<span class="p">
+---
+</span>
+<span class="gu">## Project Workflow</span>
+
+The UMCO project achieves its functionality through the following workflow:
+
+<span class="p">```</span><span class="nl">mermaid
+</span><span class="sb">graph TD
+    A[Data Source: Nasdaq/Barchart Commodity News] --&gt; B(Module 1: Market Daily Briefing);
+    B --&gt; B1[Scrape News Data];
+    B1 --&gt; B2[Natural Language Processing: Summary Generation];
+    B2 --&gt; B3[Extract Commodity Price Changes &amp; Reasons];
+    B3 --&gt; B4[Update Risk Factors List];
+    B4 --&gt; C{Market Summary &amp; Risk Factors};
+
+    C --&gt; D(Module 2: Analysis &amp; Modeling);
+    E[Historical Price Data] --&gt; D;
+    D --&gt; D1[Conditional Heteroskedasticity HMM Model];
+    D1 -- Textual Information Controls Parameters --&gt; D2[Volatility Surface Modeling];
+    D2 --&gt; F{Model Parameters / Volatility Forecast};
+
+    F --&gt; G(Module 3: Visualization);
+    E --&gt; G;
+    G --&gt; G1[Price Attribution Time Series Chart];
+    G1 --&gt; H{Visualization Results};
+
+    subgraph UMCO Core Pipeline
+        direction LR
+        B
+        D
+        G
+    end
+
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style H fill:#f9f,stroke:#333,stroke-width:2px
+    style C fill:#ccf,stroke:#333,stroke-width:2px
+    style F fill:#ccf,stroke:#333,stroke-width:2px
+</span></code></pre></div></div>
+
+<hr />
+
+<h2 id="project-modules-explained">Project Modules Explained</h2>
+
+<p>UMCO consists of three core modules:</p>
+
+<h3 id="1-market-daily-briefing">1. Market Daily Briefing</h3>
+
+<p>This module serves as the project’s data input and initial analysis layer.</p>
+
+<ul>
+  <li><strong>Functionality</strong>:
+    <ul>
+      <li>Automatically scrapes daily commodity-related news from sources like Nasdaq and Barchart.</li>
+      <li>Utilizes Natural Language Processing (NLP) techniques to analyze and summarize news content, e.g., “Stocks Finish Higher on Chip Stock Strength and Healthy US Labor Market.”</li>
+      <li>Generates a market summary detailing price movements of major commodities (gold, oil, etc.), and their potential underlying causes.</li>
+      <li>Maintains and updates a dynamic list of “Risk Factors” reflecting current market concerns.</li>
+    </ul>
+  </li>
+  <li><strong>Example Tech Stack</strong>: Python (Requests, BeautifulSoup/Scrapy for scraping), NLTK/spaCy/Transformers (for NLP).</li>
+  <li><strong>Output</strong>: Structured market summary text, list of risk factors.</li>
+</ul>
+
+<h3 id="2-analysis--modeling">2. Analysis &amp; Modeling</h3>
+
+<p>This is the core analytical engine of the project, combining financial econometrics with textual information.</p>
+
+<ul>
+  <li><strong>Functionality</strong>:
+    <ul>
+      <li>Employs a <strong>Conditional Heteroskedasticity Hidden Markov Model (HMM)</strong> to model market volatility.</li>
+      <li>A unique aspect of the model is that its state transition probabilities or heteroskedasticity parameters are dynamically influenced by <strong>textual information extracted from Module 1</strong> (e.g., market sentiment, frequency of specific risk factor mentions).</li>
+      <li>Models the market Volatility Surface, capturing the complex behavior of volatility under different conditions.</li>
+    </ul>
+  </li>
+  <li><strong>General Formula Example (for the conditional heteroskedasticity part, e.g., GARCH(1,1) within an HMM state S_t)</strong>:
+Within a given state <em>s<sub>t</sub></em> of the Hidden Markov Model, the conditional variance <em>σ<sub>t</sub><sup>2</sup></em> of returns <em>r<sub>t</sub></em> can be expressed as:
+<em>r<sub>t</sub> = μ<sub>s<sub>t</sub></sub> + ε<sub>t</sub></em>
+<em>ε<sub>t</sub> = σ<sub>t</sub> z<sub>t</sub></em>,  where <em>z<sub>t</sub> ~ N(0,1)</em> (or other distribution)
+<em>σ<sub>t</sub><sup>2</sup> = ω<sub>s<sub>t</sub></sub> + α<sub>s<sub>t</sub></sub> ε<sub>t-1</sub><sup>2</sup> + β<sub>s<sub>t</sub></sub> σ<sub>t-1</sub><sup>2</sup></em>
+Where:
+    *   <em>μ<sub>s<sub>t</sub></sub></em> is the expected return in state <em>s<sub>t</sub></em>.
+    *   <em>ω<sub>s<sub>t</sub></sub>, α<sub>s<sub>t</sub></sub>, β<sub>s<sub>t</sub></sub></em> are the GARCH model parameters, which can vary across different states <em>s<sub>t</sub></em>.
+    *   <strong>Key Innovation</strong>: These parameters <em>ω, α, β</em>, or the HMM’s state transition probabilities, can be further modeled as functions of textual features <em>T<sub>t-1</sub></em> (e.g., sentiment scores, specific keyword frequencies) extracted from Module 1:
+        <em>e.g., ω<sub>s<sub>t</sub></sub> = f(T<sub>t-1</sub>)</em></li>
+  <li><strong>Module Showcase</strong>: An interactive HTML output example for this module is embedded in the section below.</li>
+</ul>
+
+<div id="module2-container" style="width:100%; height:400px; border:1px solid #ccc; overflow:auto; margin-bottom:20px;">
+  <iframe src="module2_showcase.html" width="100%" height="100%" frameborder="0">
+    Your browser does not support iframes. Please <a href="module2_showcase.html">click here to view the content</a>.
+  </iframe>
+</div>
+
+<h3 id="3-visualization-module">3. Visualization Module</h3>
+
+<p>This module is responsible for presenting the complex model outputs and data analysis results in an intuitive manner.</p>
+
+<ul>
+  <li><strong>Functionality</strong>:
+    <ul>
+      <li>Generates price attribution time series charts.</li>
+      <li>Clearly displays the relationship between commodity price fluctuations and various driving factors (including events extracted from news and risk factors identified by the model).</li>
+      <li>Helps users understand how specific market events impact price dynamics.</li>
+    </ul>
+  </li>
+  <li><strong>Module Showcase</strong>: An interactive HTML output example for this module is embedded in the section below.</li>
+</ul>
+
+<div id="module3-container" style="width:100%; height:400px; border:1px solid #ccc; overflow:auto;">
+  <iframe src="module3_showcase.html" width="100%" height="100%" frameborder="0">
+    Your browser does not support iframes. Please <a href="module3_showcase.html">click here to view the content</a>.
+  </iframe>
+</div>
+
+<hr />
+
+<h2 id="technology-stack-example">Technology Stack (Example)</h2>
+
+<ul>
+  <li><strong>Programming Language</strong>: Python</li>
+  <li><strong>Data Processing &amp; Analysis</strong>: Pandas, NumPy, SciPy, Statsmodels</li>
+  <li><strong>Natural Language Processing</strong>: NLTK, spaCy, Transformers (Hugging Face)</li>
+  <li><strong>Machine Learning / Deep Learning</strong>: Scikit-learn, TensorFlow/Keras, PyTorch (for HMM or NLP models)</li>
+  <li><strong>Web Scraping</strong>: Requests, BeautifulSoup, Scrapy</li>
+  <li><strong>Visualization</strong>: Matplotlib, Seaborn, Plotly, Bokeh (for generating HTML charts)</li>
+  <li><strong>Web Framework (Optional, for API)</strong>: Flask, FastAPI</li>
+</ul>
+
+<hr />
+
+<h2 id="how-to-run-example">How to Run (Example)</h2>
+
+<ol>
+  <li>Clone the repository: <code class="language-plaintext highlighter-rouge">git clone https://github.com/your-username/UMCO.git</code></li>
+  <li>Navigate to the project directory: <code class="language-plaintext highlighter-rouge">cd UMCO</code></li>
+  <li>Install dependencies: <code class="language-plaintext highlighter-rouge">pip install -r requirements.txt</code></li>
+  <li>(Add more running instructions here…)</li>
+</ol>
+
+<hr />
+
+<h2 id="contributing">Contributing</h2>
+
+<p>Contributions of all kinds are welcome! Please read <code class="language-plaintext highlighter-rouge">CONTRIBUTING.md</code> (if created) for more information.</p>
+
+<hr />
+
+<h2 id="license">License</h2>
+
+<p>This project is licensed under the <a href="/LICENSE">MIT License</a>.</p>
+
+<p>```</p>
+
+<p><strong>Instructions for Use:</strong></p>
+
+<ol>
+  <li><strong>Create <code class="language-plaintext highlighter-rouge">docs/index.md</code></strong>: Paste the Markdown content above into the <code class="language-plaintext highlighter-rouge">docs/index.md</code> file in your repository.</li>
+  <li><strong>Place HTML Files</strong>: Also, place your <code class="language-plaintext highlighter-rouge">module2_showcase.html</code> and <code class="language-plaintext highlighter-rouge">module3_showcase.html</code> files in the <code class="language-plaintext highlighter-rouge">docs/</code> folder. If your filenames are different, update the <code class="language-plaintext highlighter-rouge">src</code> path in the <code class="language-plaintext highlighter-rouge">&lt;iframe&gt;</code> tags.</li>
+  <li><strong>GitHub Pages Setup</strong>:
+    <ul>
+      <li>Go to your GitHub repository -&gt; Settings -&gt; Pages.</li>
+      <li>Under “Build and deployment,” for “Source,” select “Deploy from a branch.”</li>
+      <li>For “Branch,” select <code class="language-plaintext highlighter-rouge">main</code> (or your primary branch) and the <code class="language-plaintext highlighter-rouge">/docs</code> folder.</li>
+      <li>Click “Save.” GitHub Actions will start building your page, and it should be accessible after a few minutes.</li>
+    </ul>
+  </li>
+  <li><strong>Custom Styling (Optional)</strong>: You can add custom CSS rules in <code class="language-plaintext highlighter-rouge">docs/assets/css/style.css</code> to beautify the page and reference it in <code class="language-plaintext highlighter-rouge">_config.yml</code> (if using Jekyll) or directly in your HTML/Markdown.</li>
+  <li><strong>Images</strong>: If you have a project logo or other relevant images, place them in the <code class="language-plaintext highlighter-rouge">docs/assets/images/</code> directory and reference them in Markdown using a relative path, e.g., <code class="language-plaintext highlighter-rouge">![Logo](./assets/images/logo.png)</code>.</li>
+</ol>
+
+<p>This plan provides a well-structured and informative starting point for your project’s showcase page. You can further refine it based on the specific progress and details of your project.</p>
+
+
+      
+      <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+        This site is open source. <a href="https://github.com/juwyang/UMCO/edit/gh-pages/guidelines.md">Improve this page</a>.
+      </div>
+      
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+    <script>anchors.add();</script>
+  </body>
+</html>

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cocoa Price & Risk Factor Interactive Chart (Plotly v2)</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            color: #343a40;
+        }
+        .chart-wrapper {
+            width: 95%;
+            max-width: 1300px;
+            margin: 30px auto;
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+        .plotly-chart-container {
+            width: 100%;
+            height: 550px;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 25px;
+        }
+        @media (max-width: 768px) {
+            .chart-wrapper {
+                padding: 15px;
+            }
+            .plotly-chart-container {
+                height: 480px; /* Adjusted for potentially more tooltip content */
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+            h2 {
+                font-size: 1.25em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Cocoa Price & Risk Factor Analysis</h1>
+
+    <div class="chart-wrapper">
+        <h2>Pseudo Cocoa Price Trend with Dominant Risk Factor Periods</h2>
+        <div id="cocoaPriceChartDiv" class="plotly-chart-container"></div>
+    </div>
+
+    <!-- <div class="chart-wrapper">
+        <h2>Risk Factor Attention Weights Over Time</h2>
+        <div id="riskFactorAttentionChartDiv" class="plotly-chart-container"></div>
+    </div> -->
+
+    <script>
+        // 0. Configuration
+        const NUM_DAYS = 180; // Extended data points
+        const DEFINED_RISK_FACTORS_CONFIG = [ // Excluding "Others" for specific band coloring
+            { name: "Extreme Weather", color: "rgba(220, 53, 69, 0.8)", bandColor: "rgba(220, 53, 69, 0.15)" },
+            { name: "Supply Chain Disruption", color: "rgba(0, 123, 255, 0.8)", bandColor: "rgba(0, 123, 255, 0.15)" },
+            { name: "Geopolitical Risk", color: "rgba(255, 193, 7, 0.8)", bandColor: "rgba(255, 193, 7, 0.15)" },
+            { name: "Demand Shift", color: "rgba(40, 167, 69, 0.8)", bandColor: "rgba(40, 167, 69, 0.15)" },
+            { name: "Pest & Disease Outbreaks", color: "rgba(108, 117, 125, 0.8)", bandColor: "rgba(108, 117, 125, 0.15)" },
+            { name: "Regulatory Changes", color: "rgba(23, 162, 184, 0.8)", bandColor: "rgba(23, 162, 184, 0.15)" }
+        ];
+        const ALL_RISK_FACTORS = [
+            ...DEFINED_RISK_FACTORS_CONFIG,
+            { name: "Others", color: "rgba(150, 150, 150, 0.7)", bandColor: "rgba(0,0,0,0)" } // "Others" has no band color
+        ];
+
+        const DOMINANCE_THRESHOLD = 0.40; // Factor weight must be > 40% to be dominant for a band
+        const MAX_SINGLE_FACTOR_ATTENTION = 0.80; // A single defined factor won't exceed 80%
+        const DOMINANCE_DURATION_MAX = Math.floor(NUM_DAYS / 18); // Shorter dominance periods (e.g., 10 days for 180 total)
+        const DOMINANCE_DURATION_MIN = Math.floor(NUM_DAYS / 36);
+
+        // 1. Data Generation Function
+        function generateData() {
+            const data = {
+                dates: [],
+                prices: [],
+                dailyFactorWeights: [],
+                priceChartHoverText: []
+            };
+
+            let currentDate = new Date();
+            currentDate.setDate(currentDate.getDate() - NUM_DAYS);
+            let currentPrice = 3500;
+
+            // Initialize base weights for all factors including "Others"
+            let factorBaseWeights = ALL_RISK_FACTORS.map(() => Math.random());
+            let dominantFactorIndex = -1; // Index in ALL_RISK_FACTORS; -1 means no single dominant
+            let dominanceCounter = 0;
+
+            function normalizeWeights(weights) {
+                let sum = weights.reduce((a, b) => a + b, 0);
+                if (sum === 0) return weights.map(() => 1 / weights.length); // Avoid division by zero
+                
+                // Cap defined factors to MAX_SINGLE_FACTOR_ATTENTION before final normalization
+                // This capping is applied to their *potential* share if they were the sole focus
+                let cappedWeights = weights.map((w, idx) => {
+                    if (idx < DEFINED_RISK_FACTORS_CONFIG.length) { // Only cap defined factors
+                         // This logic is tricky. We want to limit a single factor's *final* normalized weight.
+                         // A simpler approach: if a factor is being boosted, ensure its base weight doesn't get too high
+                         // such that after normalization it exceeds MAX_SINGLE_FACTOR_ATTENTION.
+                         // For now, the boost logic itself will be moderated.
+                    }
+                    return w;
+                });
+                
+                sum = cappedWeights.reduce((a,b) => a+b, 0); // Recalculate sum if capping modified weights
+                if (sum === 0) return cappedWeights.map(() => 1 / cappedWeights.length);
+                
+                let normalized = cappedWeights.map(w => w / sum);
+
+                // Ensure no single *defined* factor exceeds MAX_SINGLE_FACTOR_ATTENTION after normalization
+                // If one does, scale it down and redistribute the excess to "Others"
+                const othersIndex = ALL_RISK_FACTORS.findIndex(f => f.name === "Others");
+                for(let i=0; i < DEFINED_RISK_FACTORS_CONFIG.length; i++) {
+                    if (normalized[i] > MAX_SINGLE_FACTOR_ATTENTION) {
+                        const excess = normalized[i] - MAX_SINGLE_FACTOR_ATTENTION;
+                        normalized[i] = MAX_SINGLE_FACTOR_ATTENTION;
+                        if (othersIndex !== -1) {
+                            normalized[othersIndex] += excess;
+                        } else { // Should not happen if "Others" is always present
+                            // Redistribute to other defined factors proportionally if "Others" is missing
+                            const remainingSum = normalized.reduce((acc, val, idx) => idx !== i && idx < DEFINED_RISK_FACTORS_CONFIG.length ? acc + val : acc, 0);
+                            if (remainingSum > 0) {
+                                for (let j = 0; j < DEFINED_RISK_FACTORS_CONFIG.length; j++) {
+                                    if (i === j) continue;
+                                    normalized[j] += excess * (normalized[j] / remainingSum);
+                                }
+                            }
+                        }
+                    }
+                }
+                // Re-normalize if redistribution happened to ensure sum is 1
+                const finalSum = normalized.reduce((a,b) => a+b, 0);
+                normalized = normalized.map(w => w / finalSum);
+
+                return normalized;
+            }
+            factorBaseWeights = normalizeWeights(factorBaseWeights);
+
+            for (let i = 0; i < NUM_DAYS; i++) {
+                const dateStr = currentDate.toISOString().split('T')[0];
+                data.dates.push(dateStr);
+
+                // Price simulation
+                let priceChange = (Math.random() - 0.485) * 80; // Slightly more volatility
+                if (dominantFactorIndex !== -1 && dominantFactorIndex < DEFINED_RISK_FACTORS_CONFIG.length) { // Amplify if a *defined* factor is dominant
+                    priceChange *= (1 + factorBaseWeights[dominantFactorIndex] * 1.2);
+                }
+                currentPrice += priceChange;
+                currentPrice = Math.max(2200, Math.min(currentPrice, 7500));
+                data.prices.push(parseFloat(currentPrice.toFixed(2)));
+
+                // Factor weight simulation
+                if (dominanceCounter > 0 && dominantFactorIndex !== -1 && dominantFactorIndex < DEFINED_RISK_FACTORS_CONFIG.length) {
+                    factorBaseWeights = factorBaseWeights.map((w, idx) => {
+                        if (idx === dominantFactorIndex) {
+                            return Math.min(0.9, w + Math.random() * 0.3); // Boost dominant, cap base weight to help with 80% rule
+                        }
+                        // Suppress other *defined* factors more, let "Others" absorb some
+                        if (idx < DEFINED_RISK_FACTORS_CONFIG.length) {
+                             return Math.max(0.005, w - Math.random() * 0.15);
+                        }
+                        return Math.max(0.01, w + (Math.random() - 0.5) * 0.05); // "Others" fluctuates less wildly
+                    });
+                    dominanceCounter--;
+                    if (dominanceCounter === 0) dominantFactorIndex = -1;
+                } else {
+                    if (Math.random() < 0.08) { // Chance to pick a new *defined* dominant factor
+                        dominantFactorIndex = Math.floor(Math.random() * DEFINED_RISK_FACTORS_CONFIG.length); // Only from defined factors
+                        dominanceCounter = DOMINANCE_DURATION_MIN + Math.floor(Math.random() * (DOMINANCE_DURATION_MAX - DOMINANCE_DURATION_MIN));
+                        
+                        factorBaseWeights = factorBaseWeights.map((w, idx) => {
+                            if (idx === dominantFactorIndex) return 0.6 + Math.random() * 0.2; // Strong initial boost
+                            if (idx < DEFINED_RISK_FACTORS_CONFIG.length) return Math.random() * 0.1; // Other defined factors low
+                            return Math.random() * 0.2 + 0.1; // "Others" gets a base
+                        });
+
+                    } else { // More often, no single dominant factor or gentle shifts
+                        dominantFactorIndex = -1;
+                        factorBaseWeights = factorBaseWeights.map((w,idx) => {
+                            if (idx < DEFINED_RISK_FACTORS_CONFIG.length) {
+                                return Math.max(0.01, w + (Math.random() - 0.5) * 0.25); // Defined factors fluctuate
+                            }
+                            return Math.max(0.05, w + (Math.random() - 0.5) * 0.1); // "Others" is more stable
+                        });
+                    }
+                }
+                
+                const normalizedDayWeights = normalizeWeights(factorBaseWeights);
+                
+                const dayFactors = ALL_RISK_FACTORS.map((factor, index) => ({
+                    name: factor.name,
+                    weight: normalizedDayWeights[index]
+                }));
+                data.dailyFactorWeights.push({ date: dateStr, factors: dayFactors });
+
+                // Prepare hover text for price chart
+                let hoverInfo = `<b>Date</b>: ${dateStr}<br><b>Price</b>: $${currentPrice.toFixed(2)}<br>`;
+                
+                // Price change vs yesterday
+                if (i > 0) {
+                    const prevPrice = data.prices[i-1];
+                    const dayChangeAbs = currentPrice - prevPrice;
+                    const dayChangePct = (dayChangeAbs / prevPrice) * 100;
+                    hoverInfo += `Day: <span style="color:${dayChangeAbs >= 0 ? 'green' : 'red'};">${dayChangeAbs >= 0 ? '+' : ''}${dayChangeAbs.toFixed(2)} (${dayChangePct.toFixed(1)}%)</span><br>`;
+                } else {
+                    hoverInfo += `Day: N/A<br>`;
+                }
+
+                // Price change vs last week
+                if (i >= 7) {
+                    const weekAgoPrice = data.prices[i-7];
+                    const weekChangeAbs = currentPrice - weekAgoPrice;
+                    const weekChangePct = (weekChangeAbs / weekAgoPrice) * 100;
+                    hoverInfo += `Week: <span style="color:${weekChangeAbs >= 0 ? 'green' : 'red'};">${weekChangeAbs >= 0 ? '+' : ''}${weekChangeAbs.toFixed(2)} (${weekChangePct.toFixed(1)}%)</span><br>`;
+                } else {
+                    hoverInfo += `Week: N/A<br>`;
+                }
+
+                hoverInfo += `<br><b>Top Influencing Factors:</b><br>`;
+                const sortedDayFactors = [...dayFactors].sort((a, b) => b.weight - a.weight).slice(0, 3);
+                sortedDayFactors.forEach(f => {
+                    hoverInfo += `- ${f.name}: ${(f.weight * 100).toFixed(1)}%<br>`;
+                });
+                data.priceChartHoverText.push(hoverInfo);
+
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+            return data;
+        }
+
+        const chartData = generateData();
+
+        // 2. Prepare Shapes for Price Chart Bands (Plotly)
+        function preparePlotlyShapes(dailyFactorWeights, dates) {
+            const shapes = [];
+            if (dailyFactorWeights.length === 0) return shapes;
+
+            let currentDominantBand = null; // { name, bandColor, startDate }
+
+            dailyFactorWeights.forEach((dayData, index) => {
+                const date = dates[index];
+                const sortedFactors = [...dayData.factors].sort((a, b) => b.weight - a.weight);
+                
+                let dominantTodayConfig = null;
+                if (sortedFactors.length > 0 && sortedFactors[0].weight > DOMINANCE_THRESHOLD) {
+                    // Check if the dominant factor is one of the DEFINED_RISK_FACTORS (not "Others")
+                    const potentialDominant = DEFINED_RISK_FACTORS_CONFIG.find(f => f.name === sortedFactors[0].name);
+                    if (potentialDominant) {
+                        dominantTodayConfig = potentialDominant;
+                    }
+                }
+
+                if (currentDominantBand) {
+                    if (!dominantTodayConfig || (dominantTodayConfig && dominantTodayConfig.name !== currentDominantBand.name)) {
+                        shapes.push({
+                            type: 'rect', xref: 'x', yref: 'paper',
+                            x0: currentDominantBand.startDate, x1: date,
+                            y0: 0, y1: 1,
+                            fillcolor: currentDominantBand.bandColor,
+                            opacity: 0.5, layer: 'below', line: { width: 0 }
+                        });
+                        currentDominantBand = null;
+                    }
+                }
+
+                if (dominantTodayConfig && !currentDominantBand) {
+                    currentDominantBand = {
+                        name: dominantTodayConfig.name,
+                        bandColor: dominantTodayConfig.bandColor,
+                        startDate: date
+                    };
+                }
+                
+                if (index === dailyFactorWeights.length - 1 && currentDominantBand) {
+                     shapes.push({
+                        type: 'rect', xref: 'x', yref: 'paper',
+                        x0: currentDominantBand.startDate, x1: date, 
+                        y0: 0, y1: 1,
+                        fillcolor: currentDominantBand.bandColor,
+                        opacity: 0.5, layer: 'below', line: { width: 0 }
+                    });
+                }
+            });
+            return shapes;
+        }
+        
+        const plotlyShapes = preparePlotlyShapes(chartData.dailyFactorWeights, chartData.dates);
+
+        // 3. Create Cocoa Price Chart (Plotly)
+        const priceTrace = {
+            x: chartData.dates,
+            y: chartData.prices,
+            mode: 'lines',
+            name: 'Cocoa Price',
+            line: { color: 'rgb(65, 105, 225)', width: 2 }, // RoyalBlue
+            hoverinfo: 'text',
+            text: chartData.priceChartHoverText
+        };
+
+        const priceLayout = {
+            xaxis: { title: 'Date', type: 'date', gridcolor: '#e9ecef' },
+            yaxis: { title: 'Price (USD/ton)', tickprefix: '$', gridcolor: '#e9ecef' },
+            shapes: plotlyShapes,
+            hovermode: 'x unified',
+            legend: { orientation: 'h', yanchor: 'bottom', y: 1.02, xanchor: 'right', x: 1 },
+            margin: { l: 70, r: 30, b: 50, t: 50, pad: 4 }
+        };
+
+        Plotly.newPlot('cocoaPriceChartDiv', [priceTrace], priceLayout, {responsive: true});
+
+        // 4. Create Risk Factor Attention Chart (Plotly)
+        // const attentionTraces = ALL_RISK_FACTORS.map(factor => {
+        //     return {
+        //         x: chartData.dates,
+        //         y: chartData.dailyFactorWeights.map(dayData => {
+        //             const factorWeight = dayData.factors.find(f => f.name === factor.name);
+        //             return factorWeight ? (factorWeight.weight * 100) : 0;
+        //         }),
+        //         mode: 'lines',
+        //         name: factor.name,
+        //         line: { color: factor.color, width: factor.name === "Others" ? 1.5 : 2, dash: factor.name === "Others" ? 'dot' : 'solid' },
+        //         hovertemplate: `<b>${factor.name}</b>: %{y:.1f}%<extra></extra>` // <extra></extra> removes trace info
+        //     };
+        // });
+
+        // const attentionLayout = {
+        //     xaxis: { title: 'Date', type: 'date', gridcolor: '#e9ecef' },
+        //     yaxis: { title: 'Attention Weight (%)', ticksuffix: '%', range: [0, 100], gridcolor: '#e9ecef' },
+        //     hovermode: 'x unified',
+        //     legend: { orientation: 'h', yanchor: 'bottom', y: 1.02, xanchor: 'right', x: 1 },
+        //     margin: { l: 60, r: 30, b: 50, t: 50, pad: 4 }
+        // };
+
+        // Plotly.newPlot('riskFactorAttentionChartDiv', attentionTraces, attentionLayout, {responsive: true});
+
+    </script>
+</body>
+</html>
