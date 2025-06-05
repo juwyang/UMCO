@@ -12,9 +12,9 @@ jobs:
       - name: Checkout your repository using git
         uses: actions/checkout@v4
       - name: Install and Build Jekyll
-        uses: actions/setup-ruby@v1
+        uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '2.7'
+          ruby-version: '3.x'
       - name: Install Jekyll and dependencies
         run: |
           gem install jekyll bundler
