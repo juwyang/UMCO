@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en"> <!-- 根据你的主要语言调整 lang 属性 -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 使用页面 front matter 中的 title，如果没有则使用站点配置的 title，最后是默认标题 -->
+    <title>{{ page.title | default: site.title | default: "My Project" }}</title>
+    <!-- 你可以在这里添加其他 <meta> 标签或链接到 CSS 文件 -->
+    <!-- <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}"> -->
+
+    <!-- 引入 Mermaid.js -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <header>
+        <!-- 你可以在这里添加一个统一的页眉，例如项目名称 -->
+        <!-- <h1>{{ site.title | default: "Project Title" }}</h1> -->
+    </header>
+
+    <main>
+        <!-- 这是 Jekyll 将 Markdown 文件内容注入的地方 -->
+        {{ content }}
+    </main>
+
+    <footer>
+        <!-- 你可以在这里添加一个统一的页脚 -->
+        <!-- <p>&copy; 2025 Your Name/Organization</p> -->
+    </footer>
+
+    <!-- 初始化 Mermaid.js -->
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</body>
+</html>

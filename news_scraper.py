@@ -4,7 +4,7 @@ import json
 import time
 
 BASE_URL = "https://www.nasdaq.com/publishers/barchart"
-MAX_PAGES = 20 # As requested, scrape up to 1000 pages
+MAX_PAGES = 5 # As requested, scrape up to 1000 pages
 
 # Headers to mimic a browser visit
 HEADERS = {

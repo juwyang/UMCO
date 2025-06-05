@@ -1,13 +1,13 @@
-# Unfilled Market Concern Output (UMCO)
-
+---
+layout: default
+title: Unfilled Market Concern Output (UMCO)
+---
 **UMCO is an innovative project combining Natural Language Processing and time series models to summarize the causes of and predict volatility for commodities (e.g., gold, oil).**
 
 This project analyzes daily market news, extracts key information, and integrates it into sophisticated financial models to provide users with deep market insights and potential risk warnings.
 
 ---
 
-<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
-<script>mermaid.initialize({startOnLoad:true});</script>
 
 ## Project Workflow
 
