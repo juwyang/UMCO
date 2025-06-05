@@ -13,7 +13,7 @@ This project analyzes daily market news, extracts key information, and integrate
 
 The UMCO project achieves its functionality through the following workflow:
 
-```mermaid
+<div class="mermaid">
 graph TD
     A[Data Source: Nasdaq/Barchart Commodity News] --> B(Module 1: Market Daily Briefing);
     B --> B1[Scrape News Data];
@@ -44,7 +44,7 @@ graph TD
     style H fill:#f9f,stroke:#333,stroke-width:2px
     style C fill:#ccf,stroke:#333,stroke-width:2px
     style F fill:#ccf,stroke:#333,stroke-width:2px
-```
+</div>
 
 ---
 
