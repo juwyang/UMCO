@@ -4,18 +4,22 @@ title: Unfilled Market Concern Output (UMCO)
 ---
 # Unfilled Market Concerns Output (UMCO)
 
-The data structure underlying Bitcoin transactions is called Unspent Transaction Output (UTXO), which resembles the process of receiving and giving change. I have named this project "Unfilled Market Concerns Output" (UMCO) because concerns emerge constantly from the news (similar to the creation of a transaction), and the market consumes these risk factors and subsequently makes "changes" (information ferment for next few days' movement).
+Name origin: The data structure underlying Bitcoin transactions is called Unspent Transaction Output (UTXO), which resembles the process of pay - receive change - use change to pay. I feel market concerns has similar linked structure, emerging constantly from the news (similar to the creation of a transaction), and the market consumes these risk factors and leftovers penetrate for next few days' movement, thus I call it UMCO.
 
-My motivation for this project: 1) to learn about what is currently being traded in the market and 2) to explore how we can enhance time series prediction with textual information.
+My motivation for this project: 1) to learn about what is currently being traded in the market, to construct market beliefs and 2) to explore how we can enhance time series prediction with textual information.
 
-I have designed three modules:
-(1) Textual Information Handler: I scrape news from Nasdaq and Barchart to identify price drivers and generate a market briefing.
+My ultimate ambition is to design an automatic hypothesis generator, and collect evidence to support or refute price drivers.
+
+-------------
+A practical goal of three modules:
+(1) Textual Information Handler: I scrape news from Nasdaq and Barchart(a commodities news vendor) to identify price drivers and generate a market briefing.
 (2) Data Fusion and Analytics Module: (To be Developed) A Hidden Markov Model is a candidate for this module.
 (3) Visualization Module: A visualization tool to attribute the underlying causes of price changes.
 
 ---
+## Modules 
 
-## Project Workflow
+### 1. Market Daily Briefing
 
 <div class="mermaid">
 graph TD
@@ -29,12 +33,6 @@ graph TD
     %% Styling %%
     style A fill:#f9f,stroke:#333,stroke-width:2px
 </div>
-
----
-
-## Modules Explained
-
-### 1. Market Daily Briefing
 
 The key role of this module is to identify the support factors and risk factors influencing price movements. I envision a risk factor list, for example: `['weather', 'foreign exchange', 'trade tension', 'geopolitics', 'trend rebound']`.
 
@@ -73,25 +71,30 @@ The key role of this module is to identify the support factors and risk factors 
 ```
 ### 2. Analysis & Modeling
 
-Naive idea: add external information to an AR model.
-
-Example: Gaussian HMM.
-Three hidden states: \(S_t \in \){Bullish, Bearish, and Neutral}.
-Market return: \(r_t|S_t=i \sim N(\mu_i, \sigma_i^2)\)
-Transition probability from state \(i\) to \(j\) at time t: \(P_{ij,t}= f(\text{embedding(text info)} \oplus \text{embedding(price info)} )\)
-
 <div class="mermaid">
 graph TD
 subgraph module2 [Module 2: Data Fusion]
 direction LR
 A[Textual Data: Market Briefing]
 B[Numerical Data: Price time series]
-C[Time-varying Hidden Markov Model]
+C[Time-varying Hidden Markov Machine]
 A --> C
 B --> C
 C --> C_OUT{Inference / Forecasting}
+style A fill:#f9f,stroke:#333,stroke-width:2px
+style B fill:#f9f,stroke:#333,stroke-width:2px
 end
 </div>
+
+- Naive idea: add external information to an AR model.
+\(r_t = a_1r_{t-1} + b_1u_{t-1} + \epsilon_t\), \(u\) is the external information(e.g. text), or `control` in control theory.
+
+- Modest idea: Gaussian HMM.
+Three hidden states: \(S_t \in \) {Bullish, Bearish, and Neutral}.
+Market return: \(r_t|S_t=i \sim N(\mu_i, \sigma_i^2)\)
+Transition probability from state \(i\) to \(j\) at time t: \(P_{ij,t}= f(\text{text}_{t-1}, \text{price}_{t-1})\)
+
+- Fancy idea: Price attention on text embedding.
 
 <!-- <div id="module2-container" style="width:100%; height:600px; border:1px solid #ccc; overflow:auto; margin-bottom:20px;">
   <iframe src="module2_showcase.html" width="100%" height="100%" frameborder="0">
@@ -101,7 +104,8 @@ end
 
 ### 3. Visualization Module
 
-An example:
+A visualization of price movement attributors.
+Excursion on causal inference and event study.
 
 <div id="module3-container" style="width:100%; height:600px; border:1px solid #ccc; overflow:auto;">
   <iframe src="module3_showcase.html" width="100%" height="100%" frameborder="0">
