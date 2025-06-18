@@ -61,55 +61,6 @@ The key role of this module is to identify the support factors and risk factors 
     Your browser does not support iframes. Please <a href="module4.html">click here to view the content</a>.
   </iframe>
 </div>
-<!-- ```
-#### **ENERGY**  
-1. **Crude Oil**  
-   - **Price Movement**: Declined significantly (July WTI: -1.66% to -3.32%).  
-   - **Key Drivers**: Reduced geopolitical risk premium as Iran signaled negotiations to end hostilities with Israel. Initial +5% surge reversed on de-escalation hopes.  
-   - **Reverse Factors**: Renewed Middle East tensions could reignite supply fears.  
-   - **Classification**: `Short-term influencer - DOWN`  
-
-2. **Natural Gas**  
-   - **Price Movement**: Rose sharply (July Nymex: +4.66%).  
-   - **Key Drivers**: Forecasts of hotter temperatures in the eastern U.S., boosting cooling demand.  
-   - **Reverse Factors**: Weather pattern shifts or milder temperatures.  
-   - **Classification**: `Short-term influencer - UP`  
-...
----
-### **Summary & Key Themes**  
-- **Geopolitical De-escalation**: Reduced Middle East tensions (Iran-Israel) drove crude oil down, weakened the dollar, and dampened safe-haven assets.  
-- **Weather-Driven Moves**: U.S. heat lifted natural gas; Brazilian rain pressured coffee.  
-- **Currency Sensitivity**: Brazilian real strength fueled rallies in sugar and cocoa.  
-- **Technical Corrections**: Grains saw profit-taking (corn, wheat) after Friday’s rally, while soybeans extended gains.  
-
-### **Risks Highlighted**  
-1. **Geopolitical Reversal**: Middle East tensions could resurge, impacting crude and safe havens.  
-2. **Weather Volatility**: U.S. heatwaves or Brazilian rainfall may disrupt supply chains.  
-3. **Currency Swings**: Brazilian real fluctuations may amplify softs volatility.  
-
-### **Watch Next**  
-- Iran-Israel diplomatic developments.  
-- U.S. temperature forecasts and Brazilian weather updates.  
-- USDA cash price reports for livestock and grains.  
-
----
-
-### **Price Movement Classification Table**  
-| Product          | Classification         | Reason (2–3 Words)        |  
-|------------------|------------------------|---------------------------|  
-| Crude Oil        | Short-term DOWN       | Geopolitical de-escalation|  
-| Natural Gas      | Short-term UP         | Hot US weather            |  
-| Wheat            | Short-term DOWN       | Profit-taking             |  
-| Soybeans         | Short-term UP         | Bean oil strength         |  
-| Corn             | Short-term DOWN       | Bearish sentiment         |  
-| Cattle           | Short-term UP         | Technical rebound         |  
-| Hogs             | Short-term UP         | Rising cash prices        |  
-| Coffee           | Short-term DOWN       | Brazil rain               |  
-| Cocoa            | Short-term UP         | Dollar weakness           |  
-| Cotton           | Short-term UP         | Outside market support    |  
-| Sugar            | Short-term UP         | Real strength             |  
-| US Dollar Index  | Short-term DOWN       | Safe-haven demand drop    |
-``` -->
 
 ### 2. Analysis & Modeling
 
@@ -131,8 +82,15 @@ $r_t = a_1r_{t-1} + b_1u_{t-1} + \epsilon_t$, $u$ is the external information(e.
 
 - Modest idea: Gaussian HMM.
 Three hidden states: $S_t \in $ {Bullish, Bearish, and Neutral}.
-Market return: $r_t|S_t=i \sim N(\mu_i, \sigma_i^2)$
-Transition probability from state $i$ to $j$ at time t: $P_{ij,t}= f(\text{text}_{t-1}, \text{price}_{t-1})$
+
+Market return: $r_t|S_t=i \sim N(\mu_i, \sigma_i^2)$.
+
+Transition probability from state $i$ to $j$ at time t: $P_{ij,t}$ based on textual information and historical price data.
+
+A preliminary result for real Wheat futures:
+A preliminary result for real Wheat futures:
+![Combined Wheat Analysis](combined_wheat_futures_results.png)
+
 
 - Fancy idea: Price attention on text embedding.
 
