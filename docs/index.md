@@ -88,8 +88,8 @@ Market return: $r_t|S_t=i \sim N(\mu_i, \sigma_i^2)$.
 Transition probability from state $i$ to $j$ at time t: $P_{ij,t}$ based on textual information and historical price data.
 
 A preliminary result for real Wheat futures:
-A preliminary result for real Wheat futures:
-![Combined Wheat Analysis](combined_wheat_futures_results.png)
+![Combined Wheat Analysis]({{ site.baseurl }}/assets/images/combined_wheat_futures_results.png)
+
 
 
 - Fancy idea: Price attention on text embedding.
