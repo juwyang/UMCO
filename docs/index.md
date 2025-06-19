@@ -78,17 +78,17 @@ end
 </div>
 
 - Naive idea: add external information to an AR model.
-$r_t = a_1r_{t-1} + b_1u_{t-1} + \epsilon_t$, $u$ is the external information(e.g. sentiment score from text).
+$$r_t = a_1r_{t-1} + b_1u_{t-1} + \epsilon_t$$, $u$ is the external information(e.g. sentiment score from text).
 
 - Modest idea: Gaussian HMM.
 Three hidden states: $S_t \in $ {Bullish, Bearish, and Neutral}.
 
-Market return: $r_t|S_t=i \sim N(\mu_i, \sigma_i^2)$.
+Market return: $$r_t|S_t=i \sim N(\mu_i, \sigma_i^2)$$.
 
 Transition probability from state $i$ to $j$ at time t: $P_{ij,t}$ based on textual information and historical price data.
 
 A preliminary result for real Wheat futures:
-![Combined Wheat Analysis]({{ site.baseurl }}/assets/images/combined_wheat_futures_results.png)
+![Combined Wheat Analysis]({{ site.baseurl }}/assets/images/combined_wheat_futures_results.png){: style="width: 80%; max-width: 700px;"}
 
 
 
