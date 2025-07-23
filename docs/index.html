@@ -20,7 +20,7 @@
 {"@context":"https://schema.org","@type":"WebPage","description":"Unfilled-Market-News-Output","headline":"News Momentum and Price Momentum","url":"/docs/"}</script>
 <!-- End Jekyll SEO tag -->
 
-    <link rel="stylesheet" href="/assets/css/style.css?v=ad38d7686e68f7460486b616bbfed52ceb4c6cf7">
+    <link rel="stylesheet" href="/assets/css/style.css?v=5eeabd4f9b87d2cf8f3d9012a719ce2cb5e9c165">
     <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
 
 <!-- Setup Google Analytics -->
@@ -81,14 +81,50 @@
 
 </code></pre></div></div>
 
-<p><strong>Example Output</strong>:
-| Date | Commodity | Key Drivers | Reverse Factors |
-|——|———–|————-|—————–|
-| 2022-01-03 | Crude Oil | OPEC+ surplus cut (supply) | Market volatility (markets); Natural gas decline (markets) |
-| 2022-01-04 | Crude Oil | Omicron demand optimism (demand) | OPEC+ meeting outcome (supply) |
-| 2022-01-05 | Crude Oil | OPEC+ hike doubts (supply) | OPEC+ compliance potential (supply) |
-| 2022-01-06 | Crude Oil | Tight supplies (supply) | |
-| 2022-01-07 | Crude Oil | Omicron demand concerns (demand); Travel restrictions (demand) | Demand improvement potential (demand) |</p>
+<p><strong>Example Output</strong>:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Commodity</th>
+      <th>Key Drivers</th>
+      <th>Reverse Factors</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2022-01-03</td>
+      <td>Crude Oil</td>
+      <td>OPEC+ surplus cut (supply)</td>
+      <td>Market volatility (markets); Natural gas decline (markets)</td>
+    </tr>
+    <tr>
+      <td>2022-01-04</td>
+      <td>Crude Oil</td>
+      <td>Omicron demand optimism (demand)</td>
+      <td>OPEC+ meeting outcome (supply)</td>
+    </tr>
+    <tr>
+      <td>2022-01-05</td>
+      <td>Crude Oil</td>
+      <td>OPEC+ hike doubts (supply)</td>
+      <td>OPEC+ compliance potential (supply)</td>
+    </tr>
+    <tr>
+      <td>2022-01-06</td>
+      <td>Crude Oil</td>
+      <td>Tight supplies (supply)</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>2022-01-07</td>
+      <td>Crude Oil</td>
+      <td>Omicron demand concerns (demand); Travel restrictions (demand)</td>
+      <td>Demand improvement potential (demand)</td>
+    </tr>
+  </tbody>
+</table>
 
 <p><strong>Briefing Visualization</strong>:</p>
 <div id="report" style="width:100%; height:600px; border:1px solid #ccc; overflow:auto;">
@@ -100,7 +136,7 @@
 <h3 id="2-analysis--modeling">2. Analysis &amp; Modeling</h3>
 
 <figure>
-  <img src="assets/images/CompFlow.jpg" alt="Modeling Framework" />
+  <img src="assets/images/CompFlow.jpg" alt="Modeling Framework" style="max-width: 100%; height: auto;" />
   <figcaption>Figure 1: Computational Flow. This diagram illustrates our model's computational process for a three-theme market (Demand, Supply, and Weather). A filter window of size 4 processes the theme-specific information increment time-series. Activated theme is colored in orange and inactive theme is in white. A theme score is calculated for each theme after the filtering process. The next return is sampled from a mixture model of previous theme scores.</figcaption>
 </figure>
 
@@ -112,10 +148,6 @@
 </div>
 
 <hr />
-
-<h2 id="contributing">Contributing</h2>
-
-<p>Contributions of all kinds are welcome! Please read <code class="language-plaintext highlighter-rouge">CONTRIBUTING.md</code> (if created) for more information. –&gt;</p>
 
 <hr />
 
