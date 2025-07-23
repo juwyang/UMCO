@@ -6,21 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Unfilled Market Concern Output (UMCO) | UMCO</title>
+<title>News Momentum and Price Momentum | UMCO</title>
 <meta name="generator" content="Jekyll v3.10.0" />
-<meta property="og:title" content="Unfilled Market Concern Output (UMCO)" />
+<meta property="og:title" content="News Momentum and Price Momentum" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Unfilled-Market-News-Output" />
 <meta property="og:description" content="Unfilled-Market-News-Output" />
 <meta property="og:site_name" content="UMCO" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Unfilled Market Concern Output (UMCO)" />
+<meta property="twitter:title" content="News Momentum and Price Momentum" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","description":"Unfilled-Market-News-Output","headline":"Unfilled Market Concern Output (UMCO)","url":"/docs/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","description":"Unfilled-Market-News-Output","headline":"News Momentum and Price Momentum","url":"/docs/"}</script>
 <!-- End Jekyll SEO tag -->
 
-    <link rel="stylesheet" href="/assets/css/style.css?v=cfde42e4f0f039589ab98193bb825c504e23c9ec">
+    <link rel="stylesheet" href="/assets/css/style.css?v=ad38d7686e68f7460486b616bbfed52ceb4c6cf7">
     <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
 
 <!-- Setup Google Analytics -->
@@ -39,36 +39,26 @@
       <h1><a href="/">UMCO</a></h1>
       
 
-      <h1 id="unfilled-market-concerns-output-umco">Unfilled Market Concerns Output (UMCO)</h1>
+      <h1 id="news-momentum-and-price-momentum">News Momentum and Price Momentum</h1>
 
-<p>Name origin: The data structure underlying Bitcoin transactions is called Unspent Transaction Output (UTXO), which resembles the process of pay - receive change - use change to pay. I feel market concerns has similar linked structure, emerging constantly from the news (similar to the creation of a transaction), and the market consumes these risk factors and leftovers penetrate for next few days’ movement, thus I call it UMCO.</p>
+<!-- Name origin: The data structure underlying Bitcoin transactions is called Unspent Transaction Output (UTXO), which resembles the process of pay - receive change - use change to pay. I feel market concerns has similar linked structure, emerging constantly from the news (similar to the creation of a transaction), and the market consumes these risk factors and leftovers penetrate for next few days' movement, thus I call it UMCO. -->
 
-<p>My motivation for this project: 1) to learn about what (opinion, opportunity) is currently being traded in the market, to construct market beliefs and 2) to explore how we can integrate textual information into time series modeling.</p>
+<blockquote>
+  <p><strong>Abstract</strong>: This study examines the relationship between price momentum and news narratives in commodity futures markets. By extracting price drivers from financial news, we developed a novel “theme score” to create a news-enhanced momentum strategy. An empirical test on crude oil futures shows our news-enhanced momentum strategy outperforms traditional momentum and buy-and-hold approaches. Our findings confirm the efficacy of incorporating news narratives in improving trading performance.</p>
+</blockquote>
+
+<p>Motivation for this project: 1) to learn about what (opinion, opportunity) is currently being traded in the market, to construct market beliefs and 2) to explore how we can integrate textual information into time series modeling.</p>
 
 <p>My ultimate ambition is to design a hypothesis generator, and automatically collect evidence to support or refute price drivers.</p>
 
 <hr />
-<p>A design of three modules:
-(1) Text aggregator: I scrape news from Nasdaq and Barchart(a commodities news vendor) to identify price drivers and generate a market briefing.
-(2) Analytics Module: (To be Developed) A Hidden Markov Model. Input: price movement factors + historical prices -&gt; Mid layer: A Gaussian-HMM of market sentiments(bearish, bullish etc.) -&gt; Output: Price generation.
-(3) Visualization Module: A visualization tool to attribute the underlying causes of price changes.</p>
+<p>Modules:
+(1) Text aggregator: I scrape news from Barchart(a commodities news vendor) to identify price drivers and generate a market briefing.
+(2) Analytics Module: I construct a measure termed <strong>theme scores</strong> for each theme, and report theme score along with a trend-following strategy based on theme scores.</p>
 
-<hr />
 <h2 id="modules">Modules</h2>
 
 <h3 id="1-market-daily-briefing">1. Market Daily Briefing</h3>
-
-<div class="mermaid">
-graph TD
-    subgraph module1 [Module 1: Market Briefing]
-        direction LR
-        A[Text data: Commodity News from Barchart] --&gt; B1[News Aggregator]
-        B1 --&gt; B2[Summary: price changes, price drivers, reversal warnings]    
-        B2 --&gt; C_OUT{Market Summary &amp; Risk Factors}
-    end
-</div>
-
-<p>The key role of this module is to identify the support factors and risk factors influencing price movements. I envision a risk factor list, for example: <code class="language-plaintext highlighter-rouge">['weather', 'foreign exchange', 'trade tension', 'geopolitics', 'trend rebound']</code>.</p>
 
 <p><strong>Example Input</strong>:</p>
 
@@ -91,86 +81,41 @@ graph TD
 
 </code></pre></div></div>
 
-<p><strong>Example Output</strong>:</p>
-<div id="module4" style="width:100%; height:600px; border:1px solid #ccc; overflow:auto;">
-  <iframe src="module4.html" width="100%" height="100%" frameborder="0">
-    Your browser does not support iframes. Please <a href="module4.html">click here to view the content</a>.
+<p><strong>Example Output</strong>:
+| Date | Commodity | Key Drivers | Reverse Factors |
+|——|———–|————-|—————–|
+| 2022-01-03 | Crude Oil | OPEC+ surplus cut (supply) | Market volatility (markets); Natural gas decline (markets) |
+| 2022-01-04 | Crude Oil | Omicron demand optimism (demand) | OPEC+ meeting outcome (supply) |
+| 2022-01-05 | Crude Oil | OPEC+ hike doubts (supply) | OPEC+ compliance potential (supply) |
+| 2022-01-06 | Crude Oil | Tight supplies (supply) | |
+| 2022-01-07 | Crude Oil | Omicron demand concerns (demand); Travel restrictions (demand) | Demand improvement potential (demand) |</p>
+
+<p><strong>Briefing Visualization</strong>:</p>
+<div id="report" style="width:100%; height:600px; border:1px solid #ccc; overflow:auto;">
+  <iframe src="reports/20250722_report.html" width="100%" height="100%" frameborder="0">
+    Your browser does not support iframes. Please <a href="reports/20250722_report.html">click here to view the content</a>.
   </iframe>
 </div>
 
 <h3 id="2-analysis--modeling">2. Analysis &amp; Modeling</h3>
 
-<div class="mermaid">
-graph TD
-subgraph module2 [Module 2: Data Fusion]
-direction LR
-A[Textual Data: Market Briefing]
-B[Numerical Data: Price time series]
-C[Time-varying Hidden Markov Machine]
-A --&gt; C
-B --&gt; C
-C --&gt; C_OUT{Inference / Forecasting}
-end
-</div>
+<figure>
+  <img src="assets/images/CompFlow.jpg" alt="Modeling Framework" />
+  <figcaption>Figure 1: Computational Flow. This diagram illustrates our model's computational process for a three-theme market (Demand, Supply, and Weather). A filter window of size 4 processes the theme-specific information increment time-series. Activated theme is colored in orange and inactive theme is in white. A theme score is calculated for each theme after the filtering process. The next return is sampled from a mixture model of previous theme scores.</figcaption>
+</figure>
 
-<ul>
-  <li>
-    <p>Naive idea: add external information to an AR model.
-\(r_t = a_1r_{t-1} + b_1u_{t-1} + \epsilon_t\), $u$ is the external information(e.g. sentiment score from text).</p>
-  </li>
-  <li>
-    <p>Modest idea: Gaussian HMM.
-Three hidden states: $S_t \in $ {Bullish, Bearish, and Neutral}.</p>
-  </li>
-</ul>
-
-<table>
-  <tbody>
-    <tr>
-      <td>Market return: $$r_t</td>
-      <td>S_t=i \sim N(\mu_i, \sigma_i^2)$$.</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>Transition probability from state $i$ to $j$ at time t: $P_{ij,t}$ based on textual information and historical price data.</p>
-
-<p>A preliminary result for real Wheat futures:
-<img src="/assets/images/combined_wheat_futures_results.png" alt="Combined Wheat Analysis" style="width: 80%; max-width: 700px;" /></p>
-
-<ul>
-  <li>Fancy idea: Price attention on text embedding.</li>
-</ul>
-
-<!-- <div id="module2-container" style="width:100%; height:600px; border:1px solid #ccc; overflow:auto; margin-bottom:20px;">
-  <iframe src="module2_showcase.html" width="100%" height="100%" frameborder="0">
-    Your browser does not support iframes. Please <a href="module2_showcase.html">click here to view the content</a>.
-  </iframe>
-</div> -->
-
-<h3 id="3-visualization-module">3. Visualization Module</h3>
-
-<p>A visualization of price movement attributors.
-Excursion on causal inference and event study.</p>
-
-<div id="module3-container" style="width:100%; height:600px; border:1px solid #ccc; overflow:auto;">
-  <iframe src="module3_showcase.html" width="100%" height="100%" frameborder="0">
-    Your browser does not support iframes. Please <a href="module3_showcase.html">click here to view the content</a>.
+<p>Themes and Theme scores.</p>
+<div id="themescore" style="width:100%; height:600px; border:1px solid #ccc; overflow:auto;">
+  <iframe src="interactive_report.html" width="100%" height="100%" frameborder="0">
+    Your browser does not support iframes. Please <a href="interactive_report.html">click here to view the content</a>.
   </iframe>
 </div>
 
-<!-- ## How to Run (Example)
+<hr />
 
-1.  Clone the repository: `git clone https://github.com/your-username/UMCO.git`
-2.  Navigate to the project directory: `cd UMCO`
-3.  Install dependencies: `pip install -r requirements.txt`
-4.  (Add more running instructions here...)
+<h2 id="contributing">Contributing</h2>
 
----
-
-## Contributing
-
-Contributions of all kinds are welcome! Please read `CONTRIBUTING.md` (if created) for more information. -->
+<p>Contributions of all kinds are welcome! Please read <code class="language-plaintext highlighter-rouge">CONTRIBUTING.md</code> (if created) for more information. –&gt;</p>
 
 <hr />
 
