@@ -1,37 +1,27 @@
 ---
 layout: default
-title: Unfilled Market Concern Output (UMCO)
+title: News Momentum and Price Momentum
 ---
-# Unfilled Market Concerns Output (UMCO)
+# News Momentum and Price Momentum
 
-Name origin: The data structure underlying Bitcoin transactions is called Unspent Transaction Output (UTXO), which resembles the process of pay - receive change - use change to pay. I feel market concerns has similar linked structure, emerging constantly from the news (similar to the creation of a transaction), and the market consumes these risk factors and leftovers penetrate for next few days' movement, thus I call it UMCO.
+<!-- Name origin: The data structure underlying Bitcoin transactions is called Unspent Transaction Output (UTXO), which resembles the process of pay - receive change - use change to pay. I feel market concerns has similar linked structure, emerging constantly from the news (similar to the creation of a transaction), and the market consumes these risk factors and leftovers penetrate for next few days' movement, thus I call it UMCO. -->
 
-My motivation for this project: 1) to learn about what (opinion, opportunity) is currently being traded in the market, to construct market beliefs and 2) to explore how we can integrate textual information into time series modeling.
+> **Abstract**: This study examines the relationship between price momentum and news narratives in commodity futures markets. By extracting price drivers from financial news, we developed a novel "theme score" to create a news-enhanced momentum strategy. An empirical test on crude oil futures shows our news-enhanced momentum strategy outperforms traditional momentum and buy-and-hold approaches. Our findings confirm the efficacy of incorporating news narratives in improving trading performance.
+
+Motivation for this project: 1) to learn about what (opinion, opportunity) is currently being traded in the market, to construct market beliefs and 2) to explore how we can integrate textual information into time series modeling.
 
 My ultimate ambition is to design a hypothesis generator, and automatically collect evidence to support or refute price drivers.
 
 -------------
-A design of three modules:
-(1) Text aggregator: I scrape news from Nasdaq and Barchart(a commodities news vendor) to identify price drivers and generate a market briefing.
-(2) Analytics Module: (To be Developed) A Hidden Markov Model. Input: price movement factors + historical prices -> Mid layer: A Gaussian-HMM of market sentiments(bearish, bullish etc.) -> Output: Price generation.
-(3) Visualization Module: A visualization tool to attribute the underlying causes of price changes.
+Modules:
+(1) Text aggregator: I scrape news from Barchart(a commodities news vendor) to identify price drivers and generate a market briefing.
+(2) Analytics Module: I construct a measure termed **theme scores** for each theme, and report theme score along with a trend-following strategy based on theme scores.
 
----
+
 ## Modules 
 
 ### 1. Market Daily Briefing
 
-<div class="mermaid">
-graph TD
-    subgraph module1 [Module 1: Market Briefing]
-        direction LR
-        A[Text data: Commodity News from Barchart] --> B1[News Aggregator]
-        B1 --> B2[Summary: price changes, price drivers, reversal warnings]    
-        B2 --> C_OUT{Market Summary & Risk Factors}
-    end
-</div>
-
-The key role of this module is to identify the support factors and risk factors influencing price movements. I envision a risk factor list, for example: `['weather', 'foreign exchange', 'trade tension', 'geopolitics', 'trend rebound']`.
 
 **Example Input**:
  
@@ -56,67 +46,35 @@ The key role of this module is to identify the support factors and risk factors 
 ```
 
 **Example Output**:
-<div id="module4" style="width:100%; height:600px; border:1px solid #ccc; overflow:auto;">
-  <iframe src="module4.html" width="100%" height="100%" frameborder="0">
-    Your browser does not support iframes. Please <a href="module4.html">click here to view the content</a>.
+| Date | Commodity | Key Drivers | Reverse Factors |
+|------|-----------|-------------|-----------------|
+| 2022-01-03 | Crude Oil | OPEC+ surplus cut (supply) | Market volatility (markets); Natural gas decline (markets) |
+| 2022-01-04 | Crude Oil | Omicron demand optimism (demand) | OPEC+ meeting outcome (supply) |
+| 2022-01-05 | Crude Oil | OPEC+ hike doubts (supply) | OPEC+ compliance potential (supply) |
+| 2022-01-06 | Crude Oil | Tight supplies (supply) | |
+| 2022-01-07 | Crude Oil | Omicron demand concerns (demand); Travel restrictions (demand) | Demand improvement potential (demand) |
+
+**Briefing Visualization**:
+<div id="report" style="width:100%; height:600px; border:1px solid #ccc; overflow:auto;">
+  <iframe src="reports/20250722_report.html" width="100%" height="100%" frameborder="0">
+    Your browser does not support iframes. Please <a href="reports/20250722_report.html">click here to view the content</a>.
   </iframe>
 </div>
 
 ### 2. Analysis & Modeling
 
-<div class="mermaid">
-graph TD
-subgraph module2 [Module 2: Data Fusion]
-direction LR
-A[Textual Data: Market Briefing]
-B[Numerical Data: Price time series]
-C[Time-varying Hidden Markov Machine]
-A --> C
-B --> C
-C --> C_OUT{Inference / Forecasting}
-end
-</div>
+<figure>
+  <img src="assets/images/CompFlow.jpg" alt="Modeling Framework">
+  <figcaption>Figure 1: Computational Flow. This diagram illustrates our model's computational process for a three-theme market (Demand, Supply, and Weather). A filter window of size 4 processes the theme-specific information increment time-series. Activated theme is colored in orange and inactive theme is in white. A theme score is calculated for each theme after the filtering process. The next return is sampled from a mixture model of previous theme scores.</figcaption>
+</figure>
 
-- Naive idea: add external information to an AR model.
-$$r_t = a_1r_{t-1} + b_1u_{t-1} + \epsilon_t$$, $u$ is the external information(e.g. sentiment score from text).
-
-- Modest idea: Gaussian HMM.
-Three hidden states: $S_t \in $ {Bullish, Bearish, and Neutral}.
-
-Market return: $$r_t|S_t=i \sim N(\mu_i, \sigma_i^2)$$.
-
-Transition probability from state $i$ to $j$ at time t: $P_{ij,t}$ based on textual information and historical price data.
-
-A preliminary result for real Wheat futures:
-![Combined Wheat Analysis]({{ site.baseurl }}/assets/images/combined_wheat_futures_results.png){: style="width: 80%; max-width: 700px;"}
-
-
-
-- Fancy idea: Price attention on text embedding.
-
-<!-- <div id="module2-container" style="width:100%; height:600px; border:1px solid #ccc; overflow:auto; margin-bottom:20px;">
-  <iframe src="module2_showcase.html" width="100%" height="100%" frameborder="0">
-    Your browser does not support iframes. Please <a href="module2_showcase.html">click here to view the content</a>.
-  </iframe>
-</div> -->
-
-### 3. Visualization Module
-
-A visualization of price movement attributors.
-Excursion on causal inference and event study.
-
-<div id="module3-container" style="width:100%; height:600px; border:1px solid #ccc; overflow:auto;">
-  <iframe src="module3_showcase.html" width="100%" height="100%" frameborder="0">
-    Your browser does not support iframes. Please <a href="module3_showcase.html">click here to view the content</a>.
+Themes and Theme scores.
+<div id="themescore" style="width:100%; height:600px; border:1px solid #ccc; overflow:auto;">
+  <iframe src="interactive_report.html" width="100%" height="100%" frameborder="0">
+    Your browser does not support iframes. Please <a href="interactive_report.html">click here to view the content</a>.
   </iframe>
 </div>
 
-<!-- ## How to Run (Example)
-
-1.  Clone the repository: `git clone https://github.com/your-username/UMCO.git`
-2.  Navigate to the project directory: `cd UMCO`
-3.  Install dependencies: `pip install -r requirements.txt`
-4.  (Add more running instructions here...)
 
 ---
 
