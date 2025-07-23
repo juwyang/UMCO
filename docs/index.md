@@ -46,6 +46,7 @@ Modules:
 ```
 
 **Example Output**:
+
 | Date | Commodity | Key Drivers | Reverse Factors |
 |------|-----------|-------------|-----------------|
 | 2022-01-03 | Crude Oil | OPEC+ surplus cut (supply) | Market volatility (markets); Natural gas decline (markets) |
@@ -64,7 +65,7 @@ Modules:
 ### 2. Analysis & Modeling
 
 <figure>
-  <img src="assets/images/CompFlow.jpg" alt="Modeling Framework">
+  <img src="assets/images/CompFlow.jpg" alt="Modeling Framework" style="max-width: 100%; height: auto;">
   <figcaption>Figure 1: Computational Flow. This diagram illustrates our model's computational process for a three-theme market (Demand, Supply, and Weather). A filter window of size 4 processes the theme-specific information increment time-series. Activated theme is colored in orange and inactive theme is in white. A theme score is calculated for each theme after the filtering process. The next return is sampled from a mixture model of previous theme scores.</figcaption>
 </figure>
 
@@ -77,10 +78,6 @@ Themes and Theme scores.
 
 
 ---
-
-## Contributing
-
-Contributions of all kinds are welcome! Please read `CONTRIBUTING.md` (if created) for more information. -->
 
 ---
 
