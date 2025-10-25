@@ -55,12 +55,6 @@ Modules:
 | 2022-01-06 | Crude Oil | Tight supplies (supply) | |
 | 2022-01-07 | Crude Oil | Omicron demand concerns (demand); Travel restrictions (demand) | Demand improvement potential (demand) |
 
-**Briefing Visualization**:
-<div id="report" style="width:100%; height:600px; border:1px solid #ccc; overflow:auto;">
-  <iframe src="reports/20250722_report.html" width="100%" height="100%" frameborder="0">
-    Your browser does not support iframes. Please <a href="reports/20250722_report.html">click here to view the content</a>.
-  </iframe>
-</div>
 
 ### 2. Analysis & Modeling
 
@@ -76,8 +70,20 @@ Themes and Theme scores.
   </iframe>
 </div>
 
+### Video
+<video controls preload="metadata" playsinline style="width:100%; max-width:900px;">
+  <source src="{{ '/assets/Can_We_Trade_the_Narrative_.mp4' | relative_url }}" type="video/mp4">
+  Your browser does not support the video tag. <a href="{{ '/assets/Can_We_Trade_the_Narrative_.mp4' | relative_url }}">Download the video</a>.
+</video>
 
----
+### (Daily News Briefing)
+**Briefing Visualization**:
+<div id="report" style="width:100%; height:600px; border:1px solid #ccc; overflow:auto;">
+  <iframe src="reports/20251023_report.html" width="100%" height="100%" frameborder="0">
+    Your browser does not support iframes. Please <a href="reports/20251023_report.html">click here to view the content</a>.
+  </iframe>
+</div>
+
 
 ---
 
