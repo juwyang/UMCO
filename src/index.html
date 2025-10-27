@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Source Code Structure | UMCO</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Source Code Structure" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Unfilled-Market-News-Output" />
+<meta property="og:description" content="Unfilled-Market-News-Output" />
+<meta property="og:site_name" content="UMCO" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Source Code Structure" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Unfilled-Market-News-Output","headline":"Source Code Structure","url":"/src/"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="stylesheet" href="/assets/css/style.css?v=052a0a05e54edf09413176292276c539e25831a4">
+    <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
+
+<!-- Setup Google Analytics -->
+
+
+
+<!-- You can set your favicon here -->
+<!-- link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" -->
+
+<!-- end custom head snippets -->
+
+  </head>
+  <body>
+    <div class="container-lg px-3 my-5 markdown-body">
+      
+      <h1><a href="/">UMCO</a></h1>
+      
+
+      <h1 id="source-code-structure">Source Code Structure</h1>
+
+<p>This directory contains the core implementation of the commodity news momentum research project.</p>
+
+<h2 id="modules">Modules</h2>
+
+<h3 id="data_processing"><code class="language-plaintext highlighter-rouge">data_processing/</code></h3>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">load_data.py</code>: Load and merge price and classification data</li>
+  <li><code class="language-plaintext highlighter-rouge">price_data.py</code>: Price data specific processing</li>
+  <li><code class="language-plaintext highlighter-rouge">classification_data.py</code>: News classification and theme extraction</li>
+</ul>
+
+<h3 id="strategies"><code class="language-plaintext highlighter-rouge">strategies/</code></h3>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">momentum.py</code>: Traditional momentum strategies (naive and slope-based)</li>
+  <li><code class="language-plaintext highlighter-rouge">news_momentum.py</code>: News-enhanced momentum using ARMA residuals</li>
+  <li><code class="language-plaintext highlighter-rouge">simulation.py</code>: Event-driven price simulation framework</li>
+</ul>
+
+<h3 id="analysis"><code class="language-plaintext highlighter-rouge">analysis/</code></h3>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">statistics.py</code>: Statistical calculations and descriptive stats</li>
+  <li><code class="language-plaintext highlighter-rouge">performance.py</code>: Performance metrics (Sharpe, drawdown, etc.)</li>
+</ul>
+
+<h3 id="visualization"><code class="language-plaintext highlighter-rouge">visualization/</code></h3>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">plots.py</code>: Plotting functions for analysis and reports</li>
+</ul>
+
+<h3 id="utils"><code class="language-plaintext highlighter-rouge">utils/</code></h3>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">config.py</code>: Configuration management and API key handling</li>
+</ul>
+
+<h2 id="usage-example">Usage Example</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">src.data_processing</span> <span class="kn">import</span> <span class="n">load_and_prepare_data</span>
+<span class="kn">from</span> <span class="nn">src.strategies</span> <span class="kn">import</span> <span class="n">run_strategy_analysis</span>
+<span class="kn">from</span> <span class="nn">src.visualization</span> <span class="kn">import</span> <span class="n">generate_interactive_report</span>
+
+<span class="c1"># Load data
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">load_and_prepare_data</span><span class="p">(</span>
+    <span class="n">price_csv_path</span><span class="o">=</span><span class="s">'data/price/crude_oil.csv'</span><span class="p">,</span>
+    <span class="n">classification_csv_path</span><span class="o">=</span><span class="s">'data/price/2024_combined_price_movement.csv'</span><span class="p">,</span>
+    <span class="n">commodity_name</span><span class="o">=</span><span class="s">'Crude'</span>
+<span class="p">)</span>
+
+<span class="c1"># Run analysis
+</span><span class="n">categories</span> <span class="o">=</span> <span class="p">[</span><span class="s">'currency'</span><span class="p">,</span> <span class="s">'demand'</span><span class="p">,</span> <span class="s">'supply'</span><span class="p">,</span> <span class="s">'geopolitics'</span><span class="p">]</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">run_strategy_analysis</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">,</span> 
+    <span class="n">categories</span><span class="o">=</span><span class="n">categories</span><span class="p">,</span>
+    <span class="n">beta</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> 
+    <span class="n">middle_weight</span><span class="o">=</span><span class="mf">0.2</span>
+<span class="p">)</span>
+
+<span class="c1"># Generate report
+</span><span class="n">generate_interactive_report</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="s">'climate_df'</span><span class="p">])</span>
+</code></pre></div></div>
+
+<h2 id="configuration">Configuration</h2>
+
+<p>Create a <code class="language-plaintext highlighter-rouge">config.yml</code> file in the project root (copy from <code class="language-plaintext highlighter-rouge">config.example.yml</code>) to customize settings.</p>
+
+<h2 id="api-keys">API Keys</h2>
+
+<p>Set API keys as environment variables:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">OPENAI_API_KEY</span><span class="o">=</span><span class="s2">"your-key-here"</span>
+<span class="nb">export </span><span class="nv">ANTHROPIC_API_KEY</span><span class="o">=</span><span class="s2">"your-key-here"</span>
+</code></pre></div></div>
+
+<p>Never commit actual API keys to the repository!</p>
+
+
+      
+      <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+        This site is open source. <a href="https://github.com/juwyang/UMCO/edit/gh-pages/src/README.md">Improve this page</a>.
+      </div>
+      
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+    <script>anchors.add();</script>
+  </body>
+</html>
