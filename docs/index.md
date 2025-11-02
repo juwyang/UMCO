@@ -60,7 +60,7 @@ Modules:
 
 <figure>
   <img src="assets/images/CompFlow.jpg" alt="Modeling Framework" style="max-width: 100%; height: auto;">
-  <figcaption>Figure 1: Computational Flow. This diagram illustrates our model's computational process for a three-theme market (Demand, Supply, and Weather). A filter window of size 4 processes the theme-specific information increment time-series. Activated theme is colored in orange and inactive theme is in white. A theme score is calculated for each theme after the filtering process. The next return is sampled from a mixture model of previous theme scores.</figcaption>
+  <figcaption>Figure 1: Computational Flow. This diagram illustrates our model's computational process for a four-theme market (Demand, Supply, Weather and Currency). A filter window of size 4 processes the theme-specific information increment time-series. Activated theme is colored in orange and inactive theme is in white. A theme score is calculated for each theme after the filtering process. The next return is sampled from a mixture model of previous theme scores.</figcaption>
 </figure>
 
 Themes and Theme scores.
@@ -79,8 +79,8 @@ Themes and Theme scores.
 ### (Daily News Briefing)
 **Briefing Visualization**:
 <div id="report" style="width:100%; height:600px; border:1px solid #ccc; overflow:auto;">
-  <iframe src="reports/20251023_report.html" width="100%" height="100%" frameborder="0">
-    Your browser does not support iframes. Please <a href="reports/20251023_report.html">click here to view the content</a>.
+  <iframe src="reports/20251027_report.html" width="100%" height="100%" frameborder="0">
+    Your browser does not support iframes. Please <a href="reports/20251027_report.html">click here to view the content</a>.
   </iframe>
 </div>
 
