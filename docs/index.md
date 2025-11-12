@@ -79,8 +79,8 @@ Themes and Theme scores.
 ### (Daily News Briefing)
 **Briefing Visualization**:
 <div id="report" style="width:100%; height:600px; border:1px solid #ccc; overflow:auto;">
-  <iframe src="reports/20251027_report.html" width="100%" height="100%" frameborder="0">
-    Your browser does not support iframes. Please <a href="reports/20251027_report.html">click here to view the content</a>.
+  <iframe src="reports/20251023_report.html" width="100%" height="100%" frameborder="0">
+    Your browser does not support iframes. Please <a href="reports/20251023_report.html">click here to view the content</a>.
   </iframe>
 </div>
 
