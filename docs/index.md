@@ -17,6 +17,20 @@ Modules:
 (1) Text aggregator: I scrape news from Barchart(a commodities news vendor) to identify price drivers and generate a market briefing.
 (2) Analytics Module: I construct a measure termed **theme scores** for each theme, and report theme score along with a trend-following strategy based on theme scores.
 
+<figure>
+  <iframe 
+    src="assets/paper.pdf" 
+    width="100%" 
+    height="800px"
+    style="border: none;"
+  >
+    This browser does not support PDFs. Please download the PDF to view it:
+    <a href="assets/paper.pdf">Download PDF</a>.
+  </iframe>
+  <figcaption>
+    Figure: Full paper – <a href="assets/paper.pdf" target="_blank">Open in a new tab</a>
+  </figcaption>
+</figure>
 
 ## Modules 
 
